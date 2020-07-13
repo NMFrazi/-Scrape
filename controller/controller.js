@@ -11,11 +11,7 @@ router.get("/", function (req, res) {
 });
 
 router.get("/scrape", function (req, res) {
-  request("https://www.nytimes.com/section/arts/design", function (
-    error,
-    response,
-    html
-  ) {
+  request("https://www.nytimes.com/", function (error, response, html) {
     var $ = cheerio.load(html);
     var titlesArray = [];
 
@@ -107,10 +103,7 @@ router.get("/readArticle/:id", function (req, res) {
           var $ = cheerio.load(html);
 
           $(".App").each(function (i, element) {
-            hbsObj.body = $(this)
-              .children(".c-entry-content")
-              .children("p")
-              .text();
+            hbsObj.body = $(this).children("p").text();
 
             res.render("article", hbsObj);
             return false;
